@@ -1,0 +1,86 @@
+<div class="row right">
+  <div class="col s12 half-spaced-bottom">
+    <button (click)="showForm=true" class="btn">
+      <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Add New
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 spaced spaced-bottom" *ngIf="showForm">
+    <form #formData="ngForm" class="col s12">
+      <div class="row">
+        <div class="col l3 s6 s12" *ngFor="let field of list.columns">
+          <div class="input-field">
+            <input [required] = true [placeholder]="field" type="text" class="validate" [ngModel]="editable[field]" name="{{field}}">
+          </div>
+        </div>
+      </div>
+      <div class="row clear-margin center">
+        <input *ngIf="createbtn" type="button" (click)="addtoList(formData.value)" [disabled] = "!formData.valid" value="Create" class="btn blue">
+        <input *ngIf="editbtn"type="button" (click)="updateList(formData.value, editItem); editbtn = false; createbtn= true;" [disabled] = "!formData.valid" value="Update" class="btn blue">
+        <input type="button" (click)="formData.reset(); editbtn = false; createbtn= true; showForm=false" class="btn white black-text" value="Cancel">
+      </div>
+    </form>
+  </div>
+</div>
+<!-- table generation -->
+<div class="row">
+  <div class="col s12">
+    <table class="bordered striped centered responsive-table">
+      <thead>
+        <tr>
+          <th *ngFor="let heading of list.columns" [textContent] = "heading"></th>
+          <th class="center-align">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of list.records; let i = index;">
+          <td *ngFor="let column of list.columns" [textContent] = "data[column]"><td>
+          <td>
+            <span>
+              <i class="material-icons tiny" (click)="editList(i); editbtn=true; createbtn=false;">create</i>
+              <i class="material-icons tiny" (click)="removeformList(i)">delete</i>
+          </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- An example form for the model driven form approach
+
+this model driven approach provides a better way to validate the forms,
+set strong and solid secure forms with the limitations of the params passed
+and also make the model re-usabel for other components.
+
+-->
+<div class="row spaced spaced-bottom">
+  <div class='col s12'>
+    <h5 class="spaced-bottom">Model driven from example</h5>
+  </div>
+  <div class="col s5">
+    <form [formGroup]="userFrom" (ngSubmit)="mdfTest();">
+      <input type="text" formControlName="firstname" #refName>
+      <small>* (State of the fiels : {{refName.className}} )</small> <!-- provide the state of the input field(visited, valid, changed) -->
+      <br><br>
+      <div *ngIf="userFrom.controls['firstname'].hasError('required')" class="error spaced-bottom">Please enter name</div>
+
+      <input type="text" formControlName="lastname">
+      <div *ngIf="userFrom.controls['lastname'].hasError('required')" class="error spaced-bottom">Can't be blank.</div>
+      <div *ngIf="userFrom.controls['lastname'].hasError('minlength')" class="error spaced-bottom">Should be minimum 3 char</div>
+      <div *ngIf="userFrom.controls['lastname'].hasError('maxlength')" class="error spaced-bottom">Can't exceed 8 char</div>
+
+      <input type="text" formControlName="email" class="spaced">
+      <div formGroupName="address">
+        <input type="text" formControlName="street">
+        <input type="text" formControlName="postal">
+        <div *ngIf="userFrom.controls['address'].controls['postal'].hasError('required')" class="error">Can't be blank.</div>
+        <div *ngIf="userFrom.controls['address'].controls['postal'].hasError('pattern')" class="error">should be numeric of 4 digits</div>
+      </div>
+      <div class="spaced">
+        <input type="submit" value="test" class="btn" [disabled]="!userFrom.valid">
+      </div>
+    </form>
+  </div>
+</div>

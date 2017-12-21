@@ -1,0 +1,13 @@
+input.ng-invalid {
+  border-bottom: 3px solid red;
+  padding-left: 10px;
+}
+input.ng-valid {
+  border-bottom: 3px solid #36b136;
+  padding-left: 10px;
+}
+.error {
+  color: #fff;
+  padding: 5px;
+  background:#c75555;
+}

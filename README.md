@@ -1,6 +1,14 @@
-# JsonApi
+# Angular CRUD
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
+This application describes the basic routing, service declarations, CRUD operation, and so on.
+
+This was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.0.
+
+In the AppModule it has been declared with two constant for defining the application routes, toggle the comment at
+
+RouterModule.forRoot() to see how the parent and child routing works.
+
+This Application use the materialize-css for UI
 
 ## Development server
 
